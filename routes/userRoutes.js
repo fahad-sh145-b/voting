@@ -39,6 +39,8 @@ router.post('/signup', async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ error: ' user with the same Aadhar Card Number already exists' });
         }
+
+
         //create a new user using the mongoose model
 
         const newuser = new User(data);
@@ -46,7 +48,7 @@ router.post('/signup', async (req, res) => {
         //save the new user to the database
 
         const response = await newuser.save();
-        console.log("data saved");
+        console.log("data saved");      
 
         const payload = {
             id: response.id
@@ -126,6 +128,7 @@ router.get('/profile', jwtAuthmiddleware, async (req, res) => {
 
 
         const userId = userData.id;
+        
         // const foundUserId = req.user.id;
 
 

@@ -65,6 +65,7 @@ userSchema.pre('save', async function (next) {
     try {
 
         // hash password generation
+        
         const salt = await bcrypt.genSalt(10);
 
         // hash password

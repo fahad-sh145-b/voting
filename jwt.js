@@ -1,51 +1,51 @@
 const jwt = require('jsonwebtoken')
 
 
-const jwtAuthmiddleware = (req ,res ,next)=>{
-    
-    
-// first check request header has authorization or not
+const jwtAuthmiddleware = (req, res, next) => {
 
-const authorization = req.headers.authorization;
 
-if(!authorization) return res.status(401).json ({error:'Token not found'});
+    // first check request header has authorization or not
 
-// Extract the jwt token from the request headers
+    const authorization = req.headers.authorization;
 
-const token = req.headers.authorization.split(' ')[1];
+    if (!authorization) return res.status(401).json({ error: 'Token not found' });
 
-if(!token) return res.status(401).json ({error:'Unauthorized'});
+    // Extract the jwt token from the request headers
 
-try{
+    const token = req.headers.authorization.split(' ')[1];
 
-    //verify the jwt token
+    if (!token) return res.status(401).json({ error: 'Unauthorized' });
 
-    const decoded = jwt.verify(token , process.env.JWT_SECRET);
+    try {
 
-    req.user = decoded;
+        //verify the jwt token
 
-    next();
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-}
-catch(err){
+        req.user = decoded;
 
-    console.log(err);
-    return res.status(401).json ({error:'authentication failed'});
-}
+        next();
+
+    }
+    catch (err) {
+
+        console.log(err);
+        return res.status(401).json({ error: 'authentication failed' });
+    }
 
 }
 
 //function to generate jwt token
 
-const generatetoken = (userData)=>{
+const generatetoken = (userData) => {
 
     //generate a new token using user data
 
 
-    return jwt.sign(userData , process.env.JWT_SECRET);
+    return jwt.sign(userData, process.env.JWT_SECRET);
 
 
 }
 
 
-module.exports = {jwtAuthmiddleware ,generatetoken};
+module.exports = { jwtAuthmiddleware, generatetoken };
